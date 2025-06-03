@@ -1,9 +1,9 @@
-# 🐍 Python Project Boilerplate
+# 🐍 {{ project_name }}
 
-A modern Python project boilerplate with development tools, testing, and CI/CD setup.
+{{ project_description }}
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Python {{ python_version }}+](https://img.shields.io/badge/python-{{ python_version }}+-blue.svg)](https://www.python.org/downloads/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
@@ -22,8 +22,8 @@ A modern Python project boilerplate with development tools, testing, and CI/CD s
 ### 1. Clone and Setup
 
 ```bash
-git clone https://github.com/arthrod/python-boilerplate.git
-cd python-boilerplate
+git clone {{ repository_url }}.git
+cd {{ repository_name }}
 ```
 
 ### 2. Install Dependencies

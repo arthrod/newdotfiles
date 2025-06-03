@@ -1,0 +1,7 @@
+# Copier configuration for template detection
+# This file tells copier how to handle updates
+_envops:
+  autoescape: false
+  keep_trailing_newline: true
+  
+_answers_file: .copier-answers.yml

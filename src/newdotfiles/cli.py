@@ -1,25 +1,25 @@
-"""Command line interface for python-boilerplate."""
+"""Command line interface for {{ project_name }}."""
 
 import click
 from loguru import logger
 
-from python_boilerplate.add import add, multiply
-from python_boilerplate.config import config
+from {{ package_name }}.add import add, multiply
+from {{ package_name }}.config import config
 
 
 @click.group()
 @click.version_option()
 @click.option("--env-file", help="Path to environment file", default=".env")
 def main(env_file: str) -> None:
-    """Python Boilerplate CLI with secure API key management."""
+    """{{ project_name }} CLI with secure API key management."""
     # Import here to ensure logging is configured
-    from python_boilerplate import logging_config  # noqa: F401
+    from {{ package_name }} import logging_config  # noqa: F401
     
     # Load configuration
     if env_file != ".env":
         config.__init__(env_file)
     
-    logger.info(f"Starting python-boilerplate CLI in {config.environment} mode")
+    logger.info(f"Starting {{ project_name }} CLI in {config.environment} mode")
     logger.debug(f"Configuration: {config.to_dict()}")
 
 

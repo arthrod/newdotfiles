@@ -65,4 +65,3 @@ def mock_environment(monkeypatch):
     """Mock environment variables."""
     monkeypatch.setenv("ENVIRONMENT", "test")
     monkeypatch.setenv("LOG_LEVEL", "DEBUG")
-EOF < /dev/null
