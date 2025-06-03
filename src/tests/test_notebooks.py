@@ -1,9 +1,13 @@
+"""Tests for Marimo notebooks."""
+
 import subprocess
 import sys
+
 from security import safe_command
 
 
 def test_notebooks(root_dir):
+    """Test that all Marimo notebooks can be executed without errors."""
     # loop over all notebooks
     path = root_dir / "book" / "marimo"
 

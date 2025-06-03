@@ -11,7 +11,7 @@ from newdotfiles.config import config
 @click.version_option()
 @click.option("--env-file", help="Path to environment file", default=".env")
 def main(env_file: str) -> None:
-    """newdotfiles CLI with secure API key management."""
+    """Newdotfiles CLI with secure API key management."""
     # Import here to ensure logging is configured
     from newdotfiles import logging_config  # noqa: F401
     

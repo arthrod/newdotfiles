@@ -2,7 +2,7 @@
 
 import os
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Any
 
 from dotenv import load_dotenv
 from loguru import logger
@@ -11,7 +11,7 @@ from loguru import logger
 class Config:
     """Application configuration with environment-based settings."""
     
-    def __init__(self, env_file: Optional[str] = None):
+    def __init__(self, env_file: str | None = None):
         """Initialize configuration with optional env file."""
         if env_file:
             env_path = Path(env_file)
@@ -39,7 +39,7 @@ class Config:
         """Get logging level."""
         return os.getenv("LOG_LEVEL", "INFO")
     
-    def get_api_key(self, service: str) -> Optional[str]:
+    def get_api_key(self, service: str) -> str | None:
         """Get API key for a specific service."""
         key_name = f"{service.upper().replace('-', '_')}_API_KEY"
         key = os.getenv(key_name)
@@ -47,15 +47,14 @@ class Config:
         if key:
             logger.debug(f"Found API key for {service}")
             return key
-        else:
-            logger.warning(f"API key not found for {service} (looking for {key_name})")
-            return None
+        logger.warning(f"API key not found for {service} (looking for {key_name})")
+        return None
     
-    def get_database_url(self) -> Optional[str]:
+    def get_database_url(self) -> str | None:
         """Get database connection URL."""
         return os.getenv("DATABASE_URL")
     
-    def get_unkey_config(self) -> Dict[str, Optional[str]]:
+    def get_unkey_config(self) -> dict[str, str | None]:
         """Get Unkey configuration."""
         return {
             "root_key": os.getenv("UNKEY_ROOT_KEY"),
@@ -64,11 +63,7 @@ class Config:
     
     def validate_required_keys(self, required_services: list[str]) -> bool:
         """Validate that all required API keys are present."""
-        missing_keys = []
-        
-        for service in required_services:
-            if not self.get_api_key(service):
-                missing_keys.append(service)
+        missing_keys = [service for service in required_services if not self.get_api_key(service)]
         
         if missing_keys:
             logger.error(f"Missing required API keys: {missing_keys}")
@@ -78,7 +73,7 @@ class Config:
         logger.info("All required API keys are present")
         return True
     
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Export configuration as dictionary."""
         return {
             "environment": self.environment,

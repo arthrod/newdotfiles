@@ -1,3 +1,5 @@
+"""Tests for documentation code blocks."""
+
 import doctest
 import os
 import re
@@ -5,10 +7,11 @@ import re
 import pytest
 
 
-@pytest.fixture()
+@pytest.fixture
 def docstring(root_dir):
+    """Extract code blocks from README.md."""
     # Read the README.md file
-    with open(root_dir / "README.md") as f:
+    with (root_dir / "README.md").open() as f:
         content = f.read()
 
     # Extract Python code blocks (assuming they are in triple backticks)
@@ -17,12 +20,11 @@ def docstring(root_dir):
     code = "\n".join(blocks).strip()
 
     # Add a docstring wrapper for doctest to process the code
-    docstring = f"\n{code}\n"
-
-    return docstring
+    return f"\n{code}\n"
 
 
 def test_blocks(root_dir, docstring, capfd):
+    """Test that code blocks in README execute without errors."""
     os.chdir(root_dir)
 
     try:

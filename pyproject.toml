@@ -44,6 +44,7 @@ lint = [
     "mypy>=1.14.1",
     "pyrefly>=0.16.1",
     "types-click",
+    "bandit[toml]>=1.7.5",
 ]
 
 [tool.uv]

@@ -1,9 +1,8 @@
 """Pytest configuration and fixtures for the test suite."""
 
-import asyncio
 import tempfile
+from collections.abc import AsyncGenerator, Generator
 from pathlib import Path
-from typing import AsyncGenerator, Generator
 
 import pytest
 import uvloop
