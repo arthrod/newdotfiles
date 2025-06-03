@@ -117,7 +117,7 @@ python_files = ["test_*.py"]
 testpaths = ["src/tests"]
 
 [tool.coverage.report]
-fail_under = 40
+fail_under = 70
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",
@@ -139,6 +139,9 @@ omit = [
     "manage_keys.py",
     "setup_project.py",
     "render_templates.py",
+    "book/*",
+    "noxfile.py",
+    "*/__init__.py",
 ]
 
 [tool.mypy]
