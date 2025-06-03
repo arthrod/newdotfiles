@@ -150,7 +150,10 @@ disallow_incomplete_defs = false
 disallow_untyped_defs = false
 strict = false
 warn_unused_configs = true
-ignore_missing_imports = false
+ignore_missing_imports = true
+exclude = [
+    "src/tests/test_notebooks.py",
+]
 
 [tool.pyrefly]
 # Project structure

@@ -3,6 +3,7 @@
 import tempfile
 from collections.abc import AsyncGenerator, Generator
 from pathlib import Path
+from typing import Any
 
 import pytest
 import uvloop
@@ -45,7 +46,7 @@ def temp_dir() -> Generator[Path, None, None]:
 
 
 @pytest.fixture
-def sample_data() -> dict[str, any]:
+def sample_data() -> dict[str, Any]:
     """Sample data for testing."""
     return {
         "name": "test_project",

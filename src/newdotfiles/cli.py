@@ -4,7 +4,7 @@ import click
 from loguru import logger
 
 from newdotfiles.add import add, multiply
-from newdotfiles.config import config
+from newdotfiles.config import Config, config
 
 
 @click.group()
@@ -17,7 +17,9 @@ def main(env_file: str) -> None:
 
     # Load configuration
     if env_file != ".env":
-        config.__init__(env_file)
+        # Reinitialize config with custom env file
+        global config
+        config = Config(env_file)
 
     logger.info(f"Starting newdotfiles CLI in {config.environment} mode")
     logger.debug(f"Configuration: {config.to_dict()}")
