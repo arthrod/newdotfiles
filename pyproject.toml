@@ -123,7 +123,7 @@ disallow_incomplete_defs = false
 disallow_untyped_defs = false
 strict = false
 warn_unused_configs = true
-ignore_missing_imports = true
+ignore_missing_imports = false
 
 [tool.pyrefly]
 # Project structure
