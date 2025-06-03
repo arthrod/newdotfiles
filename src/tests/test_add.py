@@ -1,7 +1,5 @@
 """Tests for the add module."""
 
-import pytest
-
 from newdotfiles.add import add, multiply
 
 

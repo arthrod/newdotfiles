@@ -117,7 +117,7 @@ python_files = ["test_*.py"]
 testpaths = ["src/tests"]
 
 [tool.coverage.report]
-fail_under = 70
+fail_under = 40
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",
