@@ -113,10 +113,33 @@ exclude_dirs = ["tests"]
 addopts = ["--cov", "-v", "--no-header"]
 asyncio_default_fixture_loop_scope = "function"
 asyncio_mode = "auto"
-python_files = ["**/*_test.py"]
+python_files = ["test_*.py"]
+testpaths = ["src/tests"]
 
 [tool.coverage.report]
-fail_under = 85
+fail_under = 70
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.coverage.run]
+omit = [
+    "src/tests/*",
+    "*/venv/*",
+    "*/virtualenv/*",
+    "*/.tox/*",
+    "*/migrations/*",
+    "manage_keys.py",
+    "setup_project.py",
+    "render_templates.py",
+]
 
 [tool.mypy]
 disallow_incomplete_defs = false

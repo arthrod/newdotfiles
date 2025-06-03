@@ -9,6 +9,12 @@ import uvloop
 from loguru import logger
 
 
+@pytest.fixture
+def root_dir():
+    """Get the project root directory."""
+    return Path(__file__).parent.parent.parent
+
+
 @pytest.fixture(scope="session")
 def event_loop_policy():
     """Use uvloop for all async tests."""
