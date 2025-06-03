@@ -1,25 +1,25 @@
-"""Command line interface for {{ project_name }}."""
+"""Command line interface for newdotfiles."""
 
 import click
 from loguru import logger
 
-from {{ package_name }}.add import add, multiply
-from {{ package_name }}.config import config
+from newdotfiles.add import add, multiply
+from newdotfiles.config import config
 
 
 @click.group()
 @click.version_option()
 @click.option("--env-file", help="Path to environment file", default=".env")
 def main(env_file: str) -> None:
-    """{{ project_name }} CLI with secure API key management."""
+    """newdotfiles CLI with secure API key management."""
     # Import here to ensure logging is configured
-    from {{ package_name }} import logging_config  # noqa: F401
+    from newdotfiles import logging_config  # noqa: F401
     
     # Load configuration
     if env_file != ".env":
         config.__init__(env_file)
     
-    logger.info(f"Starting {{ project_name }} CLI in {config.environment} mode")
+    logger.info(f"Starting newdotfiles CLI in {config.environment} mode")
     logger.debug(f"Configuration: {config.to_dict()}")
 
 

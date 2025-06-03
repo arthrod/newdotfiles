@@ -353,4 +353,3 @@ def rotate(key_name: str):
 
 if __name__ == "__main__":
     app()
-EOF < /dev/null

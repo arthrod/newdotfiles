@@ -91,4 +91,3 @@ class Config:
 
 # Global configuration instance
 config = Config()
-EOF < /dev/null
