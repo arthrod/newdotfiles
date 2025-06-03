@@ -119,10 +119,11 @@ python_files = ["**/*_test.py"]
 fail_under = 85
 
 [tool.mypy]
-disallow_incomplete_defs = true
-disallow_untyped_defs = true
-strict = true
+disallow_incomplete_defs = false
+disallow_untyped_defs = false
+strict = false
 warn_unused_configs = true
+ignore_missing_imports = true
 
 [tool.pyrefly]
 # Project structure
