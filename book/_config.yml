@@ -1,8 +1,8 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: {{ project_name }}
-author: {{ author_name }}
+title: newdotfiles
+author: Arthur Souza Rodrigues
 only_build_toc_files: true
 
 # needed for plotly
@@ -13,7 +13,7 @@ sphinx:
 
 # Information about where the book exists on the web
 repository:
-  url: {{ repository_url }}
+  url: https://github.com/arthrod/newdotfiles
   path_to_book: book
   branch: main
 

@@ -1,9 +1,9 @@
-# 🐍 {{ project_name }}
+# 🐍 newdotfiles
 
-{{ project_description }}
+A Python boilerplate project
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python {{ python_version }}+](https://img.shields.io/badge/python-{{ python_version }}+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
@@ -22,8 +22,8 @@
 ### 1. Clone and Setup
 
 ```bash
-git clone {{ repository_url }}.git
-cd {{ repository_name }}
+git clone https://github.com/arthrod/newdotfiles.git
+cd newdotfiles
 ```
 
 ### 2. Install Dependencies
