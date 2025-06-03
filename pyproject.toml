@@ -16,8 +16,8 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/author/newdotfiles"
-Issues = "https://github.com/author/newdotfiles/issues"
+Repository = "https://github.com/arthrod/newdotfiles"
+Issues = "https://github.com/arthrod/newdotfiles/issues"
 
 [project.scripts]
 newdotfiles = "newdotfiles.cli:main"
