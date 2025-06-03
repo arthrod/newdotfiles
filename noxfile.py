@@ -51,4 +51,3 @@ def docs(session):
     session.install("uv")
     session.run("uv", "sync", "--group", "dev")
     session.log("Documentation building would go here")
-EOF < /dev/null
