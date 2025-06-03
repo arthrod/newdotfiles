@@ -1,7 +1,7 @@
-"""{{ project_description }}"""
+"""A Python boilerplate project."""
 
 __version__ = "0.1.0"
-__author__ = "{{ author_name }}"
-__email__ = "{{ author_email }}"
+__author__ = "Arthur Souza Rodrigues"
+__email__ = "arthrod@umich.edu"
 
 __all__ = ["__version__", "__author__", "__email__"]

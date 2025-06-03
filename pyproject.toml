@@ -2,7 +2,7 @@
 name = "newdotfiles"
 version = "0.1.0"
 description = "A Python boilerplate project"
-authors = [{name = "Author", email = "author@example.com"}]
+authors = [{name = "Arthur Souza Rodrigues", email = "arthrod@umich.edu"}]
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
