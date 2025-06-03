@@ -1,50 +1,80 @@
-# 📦 [newdotfiles](https://arthrod.github.io/newdotfiles/book)
+# 🐍 Python Project Boilerplate
 
-[![PyPI version](https://badge.fury.io/py/newdotfiles.svg)](https://badge.fury.io/py/newdotfiles)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
-[![CI](https://github.com/arthrod/newdotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/arthrod/newdotfiles/actions/workflows/ci.yml)
-[![Coverage Status](https://coveralls.io/repos/github/arthrod/newdotfiles/badge.svg?branch=main)](https://coveralls.io/github/arthrod/newdotfiles?branch=main)
-[![Created with qCradle](https://img.shields.io/badge/Created%20with-qCradle-blue?style=flat-square)](https://github.com/tschm/package)
+A modern Python project boilerplate with development tools, testing, and CI/CD setup.
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/arthrod/newdotfiles)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-## 🚀 Getting Started
+## ✨ Features
 
-### **🔧 Set Up Environment**
+- 🚀 Fast dependency management with [uv](https://github.com/astral-sh/uv)
+- 🎯 Code linting and formatting with [Ruff](https://github.com/astral-sh/ruff)
+- 🧪 Testing with [pytest](https://pytest.org/) and async support
+- 🔧 Type checking with [mypy](https://mypy.readthedocs.io/)
+- 🪝 Pre-commit hooks for code quality
+- 🐳 Development container with VS Code support
+- 📝 Comprehensive pyproject.toml configuration
 
-```bash
-make install
-```
+## 🚀 Quick Start
 
-This installs/updates [uv](https://github.com/astral-sh/uv),
-creates your virtual environment and installs dependencies.
-
-For adding or removing packages:
-
-```bash
-uv add/remove requests  # for main dependencies
-uv add/remove requests --dev  # for dev dependencies
-```
-
-### **✅ Configure Pre-commit Hooks**
+### 1. Clone and Setup
 
 ```bash
-make fmt
+git clone https://github.com/arthrod/python-boilerplate.git
+cd python-boilerplate
 ```
 
-Installs hooks to maintain code quality and formatting.
-
-### **📝 Update Project Info**
-
-- Edit `pyproject.toml` to update authors and email addresses
-- Configure GitHub Pages (branch: gh-pages) in repository settings
-
-## 🛠️ Development Commands
+### 2. Install Dependencies
 
 ```bash
-make tests   # Run test suite
-make marimo  # Start Marimo notebooks
+# Install uv if you haven't already
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install project dependencies
+uv sync
 ```
+
+### 3. Setup Pre-commit Hooks
+
+```bash
+uv run pre-commit install
+```
+
+### 4. Run Tests
+
+```bash
+uv run pytest
+```
+
+## 🛠️ Development
+
+### Adding Dependencies
+
+```bash
+uv add requests              # Add runtime dependency
+uv add pytest --dev         # Add development dependency
+```
+
+### Code Quality
+
+```bash
+uv run ruff check           # Lint code
+uv run ruff format          # Format code
+uv run mypy src/            # Type check
+uv run pytest              # Run tests
+```
+
+### Pre-commit Hooks
+
+The project uses pre-commit hooks to ensure code quality:
+
+- Trailing whitespace removal
+- YAML/TOML/JSON validation
+- Ruff linting and formatting
+- MyPy type checking
+- Bandit security checks
 
 ## 👥 Contributing
 
