@@ -8,13 +8,13 @@ from loguru import logger
 
 def configure_logging(environment: str = "development") -> None:
     """Configure loguru logging based on environment.
-    
+
     Args:
         environment: Either 'development' or 'production'
     """
     # Remove default handler
     logger.remove()
-    
+
     if environment == "production":
         # Production: JSON format, INFO level, structured
         logger.add(
@@ -56,7 +56,7 @@ def setup_logging() -> None:
     """Setup logging based on environment variables."""
     environment = os.getenv("ENVIRONMENT", "development").lower()
     configure_logging(environment)
-    
+
     logger.info(f"Logging configured for {environment} environment")
 
 

@@ -3,11 +3,11 @@
 
 def add(x: int | float, y: int | float) -> int | float:
     """Add two numbers together.
-    
+
     Args:
         x: First number
         y: Second number
-        
+
     Returns:
         Sum of x and y
     """
@@ -16,11 +16,11 @@ def add(x: int | float, y: int | float) -> int | float:
 
 def multiply(x: int | float, y: int | float) -> int | float:
     """Multiply two numbers together.
-    
+
     Args:
         x: First number
         y: Second number
-        
+
     Returns:
         Product of x and y
     """

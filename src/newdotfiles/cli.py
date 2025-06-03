@@ -14,11 +14,11 @@ def main(env_file: str) -> None:
     """Newdotfiles CLI with secure API key management."""
     # Import here to ensure logging is configured
     from newdotfiles import logging_config  # noqa: F401
-    
+
     # Load configuration
     if env_file != ".env":
         config.__init__(env_file)
-    
+
     logger.info(f"Starting newdotfiles CLI in {config.environment} mode")
     logger.debug(f"Configuration: {config.to_dict()}")
 
@@ -50,7 +50,7 @@ def config_info() -> None:
     click.echo(f"  Environment: {config.environment}")
     click.echo(f"  Debug Mode: {config.debug}")
     click.echo(f"  Log Level: {config.log_level}")
-    
+
     unkey_config = config.get_unkey_config()
     if unkey_config["root_key"]:
         click.echo("  🔐 Unkey: ✅ Configured")
