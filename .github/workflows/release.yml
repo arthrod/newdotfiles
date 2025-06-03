@@ -1,39 +1,189 @@
-# Workflow to build and release project artifacts
-# This workflow is manually triggered via the GitHub UI
-
-name: Build and Release
+name: Release
 
 on:
-  # Trigger on manual dispatch
-  workflow_dispatch
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v1.0.0
 
-# Permissions needed for the workflow
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 permissions:
-  contents: write  # Allows the workflow to write to the repository (create tags)
-  packages: write  # Allows the workflow to write to GitHub Packages (for Docker images)
+  contents: write
+  packages: write
+  id-token: write
 
 jobs:
-  # Job to generate a new version tag
-  tagging:
+  # Run full test suite before release
+  test:
     runs-on: ubuntu-latest
-    outputs:
-      new_tag: ${{ steps.tag.outputs.new_tag }}  # Output the new tag to be used by other jobs
-
     steps:
-      - name: Generate Tag
-        id: tag
-        uses: tschm/cradle/actions/tag@v0.1.68  # Custom action to generate a new tag
+      - uses: actions/checkout@v4
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
-
-
-
-  # Job to display debugging information
-  debug:
-    runs-on: ubuntu-latest
-    needs: tagging  # This job depends on the tagging job
-    steps:
-      - name: Output
+          version: "latest"
+          
+      - name: Set up Python
+        run: uv python install 3.13
+        
+      - name: Install nox
+        run: uv tool install nox --with nox-uv
+        
+      - name: Run all checks
         run: |
-          echo "Repository ${{ github.repository }}"  # Print the repository name
-          echo "Tag ${{ needs.tagging.outputs.new_tag }}"  # Print the new tag
+          uv tool run nox -s tests
+          uv tool run nox -s lint  
+          uv tool run nox -s mypy
+          uv tool run nox -s security
+
+  # Create GitHub release
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: release  # Requires environment protection
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get the previous tag
+          PREV_TAG=$(git describe --abbrev=0 --tags HEAD^)
+          
+          # Generate changelog
+          echo "## Changes since $PREV_TAG" > changelog.md
+          git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD >> changelog.md
+          
+          # Set output
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat changelog.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+
+  # Build and push production Docker image
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production  # Requires environment protection
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Build production Dockerfile
+        run: |
+          cat > Dockerfile.prod << 'EOF'
+          # Use a Python image with uv pre-installed
+          FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
+          
+          # Install system dependencies
+          RUN apt-get update && apt-get install -y \
+              git \
+              && rm -rf /var/lib/apt/lists/*
+          
+          # Install the project into `/app`
+          WORKDIR /app
+          
+          # Enable bytecode compilation
+          ENV UV_COMPILE_BYTECODE=1
+          
+          # Copy from the cache instead of linking since it's a mounted volume
+          ENV UV_LINK_MODE=copy
+          
+          # Install the project's dependencies using the lockfile and settings
+          RUN --mount=type=cache,target=/root/.cache/uv \
+              --mount=type=bind,source=uv.lock,target=uv.lock \
+              --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+              uv sync --frozen --no-install-project --no-dev
+          
+          # Then, add the rest of the project source code and install it
+          ADD . /app
+          RUN --mount=type=cache,target=/root/.cache/uv \
+              uv sync --frozen --no-dev
+          
+          # Place executables in the environment at the front of the path
+          ENV PATH="/app/.venv/bin:$PATH"
+          
+          # Create non-root user
+          RUN groupadd -r appuser && useradd -r -g appuser appuser
+          RUN chown -R appuser:appuser /app
+          USER appuser
+          
+          # Reset the entrypoint, don't invoke `uv`
+          ENTRYPOINT []
+          
+          # Default command
+          CMD ["python", "-m", "python_boilerplate"]
+          EOF
+        
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.prod
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+
+  # Publish to PyPI (optional)
+  pypi:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: pypi  # Requires environment protection
+    if: ${{ !contains(github.ref_name, 'alpha') && !contains(github.ref_name, 'beta') && !contains(github.ref_name, 'rc') }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+          
+      - name: Set up Python
+        run: uv python install 3.13
+        
+      - name: Build package
+        run: uv build
+        
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}

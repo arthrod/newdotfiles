@@ -1,49 +1,34 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v4.6.0
     hooks:
-      - id: check-toml
-      - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: debug-statements
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.11.11'
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.6
     hooks:
       - id: ruff
-        args: [ --fix, --exit-non-zero-on-fix ]
-      # Run the formatter
+        args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
-        exclude: src/tests
 
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.7.1
     hooks:
-      - id: markdownlint
-        args: [ "--ignore", "book/**/*.md" ]
+      - id: mypy
+        additional_dependencies: [types-all]
+        args: [--strict]
 
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
     hooks:
-      - id: pyupgrade
-        args: [--py311-plus]
-
-  - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.33.0
-    hooks:
-      - id: check-dependabot
-        args: ["--verbose"]
-      - id: check-renovate
-        args: ["--verbose"]
-      - id: check-github-workflows
-        args: ["--verbose"]
-
-  - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.7
-    hooks:
-      - id: actionlint
-        args: [-ignore, SC]
-
-  - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.24.1
-    hooks:
-      - id: validate-pyproject
+      - id: bandit
+        args: ["-c", "pyproject.toml"]
+        additional_dependencies: ["bandit[toml]"]
+EOF < /dev/null
