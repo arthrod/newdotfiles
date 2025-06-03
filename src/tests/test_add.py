@@ -23,8 +23,8 @@ def test_add_types():
     """Test add function with different types."""
     # Test int + float
     assert add(2, 3.5) == 5.5
-    
-    # Test float + int  
+
+    # Test float + int
     assert add(2.5, 3) == 5.5
 
 
@@ -32,6 +32,6 @@ def test_multiply_types():
     """Test multiply function with different types."""
     # Test int * float
     assert multiply(2, 3.5) == 7.0
-    
+
     # Test float * int
     assert multiply(2.5, 4) == 10.0

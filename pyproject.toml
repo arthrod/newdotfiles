@@ -78,6 +78,7 @@ unfixable = ["B"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S", "D"]
+"src/tests/*" = ["S", "D"]
 "__init__.py" = ["D"]
 
 [tool.ruff.lint.isort]
