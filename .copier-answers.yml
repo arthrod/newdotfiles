@@ -1,0 +1,14 @@
+_commit: v0.4.73
+_src_path: git@github.com:tschm/package.git
+description: newdotfiles
+gh_create: gh repo create arthrod/newdotfiles --public --description 'newdotfiles'
+page: https://arthrod.github.io/newdotfiles
+project_name: newdotfiles
+repository: https://github.com/arthrod/newdotfiles
+ssh_uri: git@github.com:arthrod/newdotfiles.git
+status: public
+use_dependabot: true
+use_devcontainer: true
+use_latex: false
+use_renovate: true
+username: arthrod
