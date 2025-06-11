@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Recording Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        video { width: 100%; max-width: 600px; border: 2px solid #333; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; }
+        .status { padding: 10px; background: #f0f0f0; margin: 10px 0; }
+        .recording { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Screen Recording Test</h1>
+    <div class="status" id="status">Ready to start screen recording</div>
+    
+    <button id="startBtn" onclick="startScreenRecording()">Start Screen Recording</button>
+    <button id="stopBtn" onclick="stopRecording()" disabled>Stop Recording</button>
+    
+    <video id="video" autoplay muted playsinline></video>
+    
+    <script>
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let stream = null;
+
+        async function startScreenRecording() {
+            try {
+                // Use getDisplayMedia for screen recording
+                stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { width: 1280, height: 720 },
+                    audio: true
+                });
+                
+                document.getElementById('video').srcObject = stream;
+                document.getElementById('status').textContent = 'Screen recording started!';
+                document.getElementById('status').className = 'status recording';
+                document.getElementById('startBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+                
+                // Start recording
+                mediaRecorder = new MediaRecorder(stream);
+                recordedChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `screen-recording-${Date.now()}.webm`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                };
+                
+                mediaRecorder.start();
+                
+            } catch (err) {
+                console.error('Error starting screen recording:', err);
+                document.getElementById('status').textContent = 'Error: ' + err.message;
+            }
+        }
+
+        function stopRecording() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            if (mediaRecorder) {
+                mediaRecorder.stop();
+            }
+            
+            document.getElementById('video').srcObject = null;
+            document.getElementById('status').textContent = 'Recording stopped and downloaded!';
+            document.getElementById('status').className = 'status';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+        }
+    </script>
+</body>
+</html>

@@ -13,6 +13,15 @@ dependencies = [
     "uvloop>=0.21.0",
     "unkey-py>=0.6.2",
     "python-dotenv>=1.0.0",
+    "gradio>=4.34.0",
+    "fastrtc<0.0.29",
+    "google-genai>=1.19.0",
+    "opencv-python>=4.8.0",
+    "numpy>=1.24.0",
+    "python-dotenv>=1.0.0",
+    "google-generativeai>=0.8.5",
+    "pydantic-ai>=0.2.16",
+    "pillow>=11.2.1",
 ]
 
 [project.urls]
@@ -25,10 +34,12 @@ newdotfiles = "newdotfiles.cli:main"
 [dependency-groups]
 test = [
     "pytest>=8.3.4",
-    "pytest-cov>=6.0.0", 
+    "pytest-cov>=6.0.0",
     "pytest-asyncio>=0.25.2",
     "pytest-mock>=3.14.0",
     "pytest-sugar>=1.0.0",
+    "playwright>=1.52.0",
+    "pytest-playwright>=0.7.0",
 ]
 dev = [
     "pytest-watcher>=0.4.3",
