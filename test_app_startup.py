@@ -6,6 +6,7 @@ import time
 import signal
 import requests
 import sys
+from security import safe_requests
 
 def test_app_startup():
     """Test that the app starts without the AttributeError."""
@@ -27,7 +28,7 @@ def test_app_startup():
         
         # Try to access the web interface
         try:
-            response = requests.get("http://localhost:7864", timeout=5)
+            response = safe_requests.get("http://localhost:7864", timeout=5)
             if response.status_code == 200:
                 print("🌐 Web interface is accessible")
                 print("✅ No AttributeError occurred - fix successful!")

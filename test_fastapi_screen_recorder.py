@@ -5,8 +5,8 @@ import asyncio
 import subprocess
 import sys
 import time
-import requests
 from playwright.async_api import async_playwright
+from security import safe_requests
 
 async def test_fastapi_screen_recorder():
     """Test the FastAPI-based screen recorder."""
@@ -23,7 +23,7 @@ async def test_fastapi_screen_recorder():
     
     try:
         # Test if the app is running
-        response = requests.get("http://localhost:7864/health", timeout=5)
+        response = safe_requests.get("http://localhost:7864/health", timeout=5)
         if response.status_code == 200:
             print("✅ FastAPI app is running")
             print(f"📊 Health check: {response.json()}")
@@ -32,7 +32,7 @@ async def test_fastapi_screen_recorder():
             return False
             
         # Test the main page
-        main_response = requests.get("http://localhost:7864/", timeout=5)
+        main_response = safe_requests.get("http://localhost:7864/", timeout=5)
         if main_response.status_code == 200:
             print("✅ Main page loads successfully")
             
