@@ -153,7 +153,8 @@ class ScreenStreamHandler(StreamHandler):
             answer: str
             if capture_mode == "Only snapshots":
                 # use last frame as JPEG
-                img_path = tempfile.mktemp(prefix="snapshot_", suffix=".jpg")
+                with tempfile.NamedTemporaryFile(suffix="snapshot_", prefix=".jpg", delete=False) as tf:
+                    img_path = tf.name
                 cv2.imwrite(img_path, cv2.cvtColor(frames_to_process[-1], cv2.COLOR_RGB2BGR))
                 answer = image_analysis_tool("Describe this screen", img_path, api_key)
             else:  # 2‑second video
