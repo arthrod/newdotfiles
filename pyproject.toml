@@ -14,7 +14,7 @@ dependencies = [
     "unkey-py>=0.6.2",
     "python-dotenv>=1.0.0",
     "gradio>=4.34.0",
-    "fastrtc<0.0.29",
+    "fastrtc<0.0.30",
     "google-genai>=1.19.0",
     "opencv-python>=4.8.0",
     "numpy>=1.24.0",
