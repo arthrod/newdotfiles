@@ -19,7 +19,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: Install uv
         uses: astral-sh/setup-uv@v3
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: release  # Requires environment protection
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           
@@ -82,7 +82,7 @@ jobs:
     environment: production  # Requires environment protection
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         
       - name: Log in to Container Registry
         uses: docker/login-action@v3
@@ -170,7 +170,7 @@ jobs:
     environment: pypi  # Requires environment protection
     if: ${{ !contains(github.ref_name, 'alpha') && !contains(github.ref_name, 'beta') && !contains(github.ref_name, 'rc') }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: Install uv
         uses: astral-sh/setup-uv@v3

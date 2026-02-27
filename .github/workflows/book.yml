@@ -69,7 +69,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4  # Check out the repository code
+        uses: actions/checkout@v5  # Check out the repository code
 
       - name: Upload the book
         if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
